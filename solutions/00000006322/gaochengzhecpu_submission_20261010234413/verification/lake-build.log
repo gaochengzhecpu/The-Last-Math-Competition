@@ -1,0 +1,7 @@
+ℹ [1047/1048] Built Main
+info: .\.\.\.\Main.lean:239:0: 'Conjecture6322.coefficient_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:240:0: 'Conjecture6322.term_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:241:0: 'Conjecture6322.full_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:242:0: 'Conjecture6322.glynn_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:243:0: 'Conjecture6322.pairing_reduction' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully.

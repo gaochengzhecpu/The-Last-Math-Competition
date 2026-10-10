@@ -1,0 +1,164 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=2em
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newcommand{\per}{\operatorname{per}}
+\title{Exact sign pairing in the permanent formula\\
+\large Proof of Conjecture 00000006322}
+\author{gaochengzhecpu}\date{}
+\begin{document}\maketitle
+\begin{abstract}
+For an $n\times n$ matrix with $n\ge1$, we derive the full
+$2^n$-term signed product-of-sums formula for the permanent and
+prove that its terms pair under simultaneous sign reversal.
+Each pair contributes twice either representative. Fixing one
+coordinate to $+1$ leaves exactly $2^{n-1}$ terms, with normalization
+$2^{-(n-1)}$. The Lean proof covers every positive matrix size and
+every field in which $2\ne0$, and uses Mathlib's standard permanent.
+\end{abstract}
+
+\section*{Precise statement and conventions}
+Let $I$ be a finite set of size $n\ge1$, let $R$ be a field with
+$2\ne0$, and let $A=(a_{ij})_{i,j\in I}$ be a square matrix over $R$.
+In particular the result applies over the rationals, reals or
+complex numbers. Define
+\[
+ \per(A)=\sum_{\sigma\in\operatorname{Sym}(I)}
+                 \prod_{j\in I}a_{\sigma(j),j}.
+\]
+For a sign vector $\delta\in\{1,-1\}^I$ put
+\[
+ W_A(\delta)=\left(\prod_{i\in I}\delta_i\right)
+                 \prod_{j\in I}\left(\sum_{i\in I}\delta_i a_{ij}\right).
+\]
+Choose any coordinate $i_0\in I$. We prove the following exact
+form of the source's pairing and conversion assertions.
+
+\begin{theorem}\label{thm:main}
+For every such matrix,
+\[
+ \boxed{\displaystyle
+ \per(A)=\frac{1}{2^{n-1}}
+       \sum_{\substack{\delta\in\{1,-1\}^I\\\delta_{i_0}=1}}W_A(\delta).}
+\]
+The displayed sum has exactly $2^{n-1}$ indexed terms. It is obtained
+from the full $2^n$-term formula by the fixed-point-free pairing
+$\delta\leftrightarrow-\delta$, and paired terms are equal.
+\end{theorem}
+
+This is the classical sign-sum permanent identity commonly called
+Glynn's formula; a published elementary derivation is given by
+Spies. We supply the full proof and a general Lean formalization.
+The term count describes this particular representation, not a
+lower bound on all algorithms or a claim that every summand is
+nonzero for every matrix. Positive size is required for the free
+pairing. The empty permanent has its separate convention $1$.
+
+\section*{Derivation of the full formula}
+Distributing the $n$ column sums gives
+\[
+ W_A(\delta)=\sum_{f:I\to I}C_f(\delta)
+                     \prod_{j\in I}a_{f(j),j},\qquad
+ C_f(\delta)=\left(\prod_{i\in I}\delta_i\right)
+                    \left(\prod_{j\in I}\delta_{f(j)}\right).
+\]
+We evaluate the sum of $C_f$ over all sign vectors.
+
+If $f$ is bijective, then $\prod_j\delta_{f(j)}=\prod_i\delta_i$.
+Therefore $C_f(\delta)=1$ for every sign vector, since
+$\delta_i^2=1$. Its sum is $2^n$.
+
+If $f$ is not bijective, finiteness of its common domain and codomain
+implies that $f$ is not surjective. Choose $r\notin f(I)$.
+Flipping only $\delta_r$ negates the first product in $C_f$ and
+leaves the second unchanged. This flip is an involutive bijection
+of the sign vectors. Thus its sum $S_f$ satisfies $S_f=-S_f$;
+since $2\ne0$ in a field, $S_f=0$.
+
+Interchanging the two finite sums consequently yields
+\begin{align*}
+ \sum_{\delta\in\{1,-1\}^I}W_A(\delta)
+ &=\sum_{f:I\to I}\left(\sum_\delta C_f(\delta)\right)
+                           \prod_{j\in I}a_{f(j),j}\\
+ &=2^n\sum_{\sigma\in\operatorname{Sym}(I)}
+                           \prod_{j\in I}a_{\sigma(j),j}
+ =2^n\per(A).
+\end{align*}
+This proves the full formula directly from the permutation
+definition; the full formula is not an additional assumption.
+
+\section*{The pairing and its exact constant}
+Simultaneously negating all coordinates contributes $(-1)^n$
+from the prefactor and another $(-1)^n$ from the $n$ column sums.
+Consequently
+\[
+ W_A(-\delta)=(-1)^{2n}W_A(\delta)=W_A(\delta).
+\]
+Because $n\ge1$ and $1\ne-1$, no sign vector equals its negative.
+Every two-element pair has exactly one member with
+$\delta_{i_0}=1$. These representatives are indexed freely by
+the other $n-1$ signs, so there are exactly $2^{n-1}$ of them.
+It follows that
+\[
+ 2^n\per(A)=\sum_\delta W_A(\delta)
+       =2\sum_{\delta_{i_0}=1}W_A(\delta).
+\]
+Cancel $2$ and then divide by the nonzero $2^{n-1}$ to obtain
+Theorem~\ref{thm:main}. Thus the normalization changes from
+$2^{-n}$ to $2^{-(n-1)}$, exactly compensating for retaining one
+representative of each equal pair. This proves all three pairing,
+constant and term-count assertions in the stated formula.
+
+\section*{Formal correspondence}
+The Lean result is generic over a finite index type, a field $R$,
+and the assumption \texttt{NeZero (2 : R)}. The entries of the
+matrix are arbitrary. \texttt{Matrix.permanent} is used directly.
+Signs are encoded by Booleans: false is $+1$ and true is $-1$.
+The theorem \texttt{sign\_injective} verifies that these are distinct
+field values under the stated assumption.
+
+The theorem \texttt{term\_expansion} distributes the column sums;
+\texttt{coefficient\_sum} proves the cancellation for every
+nonbijective row-choice function. An explicit equivalence between
+bijective functions and permutations connects the surviving terms
+to the actual permanent in \texttt{full\_formula}.
+
+For the halving step, \texttt{opposite\_involutive} and
+\texttt{opposite\_ne\_self} establish the free pairing.
+\texttt{term\_opposite} proves equality of its summands, and
+\texttt{half\_sums\_equal} constructs the bijection between the two
+halves. \texttt{number\_of\_terms} proves the cardinality
+$2^{|I|-1}$. The final theorem \texttt{pairing\_reduction} combines
+the free pairing, the factor two, the exact count and the permanent
+identity. \texttt{glynn\_succ} specializes it to every matrix of
+size $n+1$, including the one-by-one case.
+
+\section*{Reproduction}
+Lean 4.19.0 and Mathlib revision\\
+\texttt{c44e0c8ee63ca166450922a373c7409c5d26b00b}
+are pinned. In \texttt{lean/}, run
+\begin{verbatim}
+lake exe cache get
+lake build
+lake env lean -DwarningAsError=true Main.lean
+\end{verbatim}
+The submitted project is rebuilt in a fresh directory using only
+verified official dependency artifacts. No numerical test family
+substitutes for the general proof. There are no proof placeholders,
+custom axioms or external computational oracles. No auxiliary
+numerical program is required. Run \texttt{tectonic main.tex} to
+regenerate the PDF. The author performed a separate adversarial
+self-review; no independent reviewer or subagent was used.
+
+\section*{References}
+\begin{enumerate}
+\item The Last Math Competition, Conjecture 00000006322. The exact
+bilingual source and its upstream provenance are included.
+\item J. Spies, \emph{A formula for the permanent}, Nieuw Archief
+voor Wiskunde 5/21(1) (2020), p.~27.
+\href{https://www.nieuwarchief.nl/serie5/pdf/naw5-2020-21-1-027.pdf}{Publisher's article}.
+\end{enumerate}
+\end{document}
