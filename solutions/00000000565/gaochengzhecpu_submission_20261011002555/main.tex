@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=2em
+\newtheorem{theorem}{Theorem}
+\newcommand{\Aut}{\operatorname{Aut}}
+\title{The type-$A_2$ exchange graph contradicts\\the proposed Weyl semidirect product\\
+\large Disproof of Conjecture 00000000565}
+\author{gaochengzhecpu}\date{}
+\begin{document}\maketitle
+\begin{abstract}
+The coefficient-free cluster exchange graph of type $A_2$ is a pentagon.
+Its automorphism group has order $10$, while the Weyl group of $A_2$
+has order $6$. Consequently its automorphism group cannot be
+$W(A_2)\rtimes H$ for any group $H$ and any action. We derive the
+exchange graph directly from symbolic cluster mutation, and the
+accompanying Lean project verifies the complete counterexample.
+\end{abstract}
+
+\section*{Interpretation and the example}
+We use the standard unlabelled cluster exchange graph: vertices are
+clusters and edges are single mutations. This is the customary
+finite/affine-type meaning of ``exchange graph'' in the conjecture.
+The source does not give a different formal definition; in particular
+we do not identify this graph with a Weyl chamber graph. The type-$A_2$
+pentagon is classical; see Fomin--Zelevinsky, Example~7.6 and Figure~3.
+
+Work in $K=\mathbb Q(x,y)$, where $x,y$ are independent indeterminates,
+with initial exchange matrix
+\[
+ B=\begin{pmatrix}0&1\\-1&0\end{pmatrix}.
+\]
+Its Cartan companion is the Cartan matrix of $A_2$. In rank two each
+mutation replaces $B$ by $-B$, so all exchange polynomials are $1+z$.
+Thus mutating $a$ in the cluster $\{a,b\}$ gives
+$\{(1+b)/a,b\}$. Define, with subscripts modulo $5$,
+\[
+ z_0=x,\quad z_1=y,\quad z_2=\frac{1+y}{x},\quad
+ z_3=\frac{1+x+y}{xy},\quad z_4=\frac{1+x}{y}.
+\]
+All five are nonzero and pairwise distinct. For example, their
+denominators are nonzero polynomials, and evaluation of these
+fractions at $(x,y)=(2,5)$ gives
+$2,5,3,4/5,3/5$, respectively. Equality of two rational functions
+would force equality after this well-defined specialization.
+Specialization is used only to certify distinctness, not to replace
+the symbolic mutation problem by a numerical one.
+
+\newpage
+\section*{All clusters and their automorphisms}
+Direct multiplication proves the five identities
+\[
+ z_i z_{i+2}=1+z_{i+1}\qquad(i\in\mathbb Z/5\mathbb Z).
+\]
+Set $C_i=\{z_i,z_{i+1}\}$. Their elements are distinct, and the five
+sets $C_i$ are distinct. In $C_i$, mutation of $z_i$ produces
+$C_{i+1}$, while mutation of $z_{i+1}$ produces $C_{i-1}$.
+These are the only choices. Induction on a mutation sequence shows
+that every cluster reachable from $C_0$ is one of the $C_i$.
+Conversely, repeated forward mutation reaches all five. Hence the
+exchange graph is exactly the cycle
+\[
+ C_0-C_1-C_2-C_3-C_4-C_0.
+\]
+An automorphism of a pentagon is determined by the image of one
+vertex (five choices) and the image of a specified neighbor (two
+choices); the remaining images are forced around the cycle.
+All ten choices occur, via $i\mapsto b+i$ and $i\mapsto b-i$ modulo
+$5$. Therefore
+\[
+ |\Aut(\mathcal E_{A_2})|=10.
+\]
+
+\section*{The Weyl group obstruction}
+Realize $A_2$ using the roots $e_i-e_j$ in the plane
+$v_0+v_1+v_2=0$. The reflection in $\alpha=e_i-e_j$ is
+\[
+ v\longmapsto v-\frac{2(v\cdot\alpha)}{\alpha\cdot\alpha}\alpha
+   =v-(v_i-v_j)(e_i-e_j).
+\]
+It swaps coordinates $i,j$. The simple reflections
+$s_0=(0\ 1)$ and $s_1=(1\ 2)$ generate $S_3$; its six elements are
+\[
+ 1,\ s_0,\ s_1,\ s_0s_1,\ s_1s_0,\ s_0s_1s_0.
+\]
+The action on the root plane is faithful: a permutation fixing all
+roots $e_i-e_j$ fixes their coordinate positions. Thus
+$W(A_2)\cong S_3$ and $|W(A_2)|=6$.
+
+\begin{theorem}
+For every group $H$ and every action of $H$ on $W(A_2)$,
+\[
+ \Aut(\mathcal E_{A_2})\not\cong W(A_2)\rtimes H.
+\]
+\end{theorem}
+\begin{proof}
+Every such semidirect product contains an injective copy of
+$W(A_2)$. An isomorphism would embed a group of order $6$ into a
+group of order $10$, contradicting Lagrange's theorem.
+\end{proof}
+This also rules out the proposed graph-automorphism factor, whatever
+action is chosen. A false finite-type statement cannot acquire a
+valid affine extension merely by extending its scope. No claim about
+a separately corrected affine conjecture is needed for this disproof.
+
+\newpage
+\section*{What the Lean project proves}
+The ambient field is the actual fraction field of the two-variable
+polynomial ring over $\mathbb Q$, using Mathlib's
+\texttt{MvPolynomial} and \texttt{FractionRing} types.
+\texttt{clusterVar\_injective} proves symbolic distinctness by
+cross-multiplying in this field, using the injective polynomial
+embedding, and only then applying polynomial evaluation.
+\texttt{exchange\_relation} verifies the five rational identities.
+
+\texttt{Mutates} is the two-variable $A_2$ rule stated above.
+\texttt{mutation\_classification} proves that each $C_i$ has exactly
+the two indicated possible successors. \texttt{Reachable} is an
+inductive definition allowing arbitrary finite mutation sequences;
+\texttt{reachable\_iff} proves that its states are exactly the five
+listed clusters. An explicit equivalence transfers permutations of
+these actual states to permutations of the five cycle indices.
+
+\texttt{exchangeAut} is the subgroup of all permutations of the
+reachable states preserving mutation in both directions.
+\texttt{exchange\_aut\_card} proves its order is $10$. The finite
+enumeration involved is checked by Lean's kernel.
+\texttt{root\_length}, \texttt{root\_pairing}, and
+\texttt{reflection\_is\_swap} verify the root reflection formula.
+\texttt{WeylA2} is the subgroup generated by the two coordinate swaps;
+\texttt{weyl\_card} proves its order is $6$ by exhaustive enumeration
+of the six words above. Finally
+\texttt{no\_semidirect\_description} excludes every second factor
+$H$, even without a finiteness assumption on $H$.
+
+The formalization specializes the standard seed-mutation definition
+to its explicit coefficient-free $A_2$ rule. It does not claim to
+formalize a general cluster-algebra classification or a general
+root-system library. The connection to the source's standard
+exchange-graph terminology is spelled out in the preceding proof.
+
+\section*{Reproduction and review}
+Lean 4.19.0 and Mathlib revision\\
+\texttt{c44e0c8ee63ca166450922a373c7409c5d26b00b} are pinned.
+In \texttt{lean/}, run
+\begin{verbatim}
+lake exe cache get
+lake build
+lake env lean -DwarningAsError=true Main.lean
+\end{verbatim}
+The project is freshly rebuilt against verified official dependencies.
+It has no proof placeholders, custom axioms, external computational
+oracle, or auxiliary numerical program. The dependency audit permits
+only Lean's standard axioms. Run \texttt{tectonic main.tex} to regenerate
+the PDF. A separate adversarial self-review was performed by the author;
+no independent reviewer or subagent was used.
+
+\section*{References}
+\begin{enumerate}
+\item The Last Math Competition, Conjecture 00000000565. Exact bilingual
+source and upstream provenance are included.
+\item S. Fomin and A. Zelevinsky, \emph{Cluster Algebras I: Foundations},
+J. Amer. Math. Soc. 15 (2002), 497--529, Example~7.6 and Figure~3.
+\href{https://www.esi.ac.at/preprints/esi1023.pdf}{Authors' preprint}.
+\end{enumerate}
+\end{document}

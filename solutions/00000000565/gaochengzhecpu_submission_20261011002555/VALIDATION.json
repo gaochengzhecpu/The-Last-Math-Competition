@@ -1,0 +1,31 @@
+{
+  "id": "00000000565",
+  "conclusion": "Disproof",
+  "publication": "Prepared for single-problem PR",
+  "source_commit": "9b795e7a94a6076e49a65a6489e1caf9153abd23",
+  "source_sha256": "1fdce89d07325aaac9131e79a15551c78db5dc60b90c4748ae4ab3176b6c77f4",
+  "clean_build_pass": true,
+  "pdf_visual_review": "PASS",
+  "self_review": "PASS",
+  "review_mode": "solo adversarial review; no independent reviewer",
+  "sha256": {
+    ".gitignore": "9964c1bdb56a8a1e8af486e326e210861ee074a52076e538fa0a371393144942",
+    "lean/lake-manifest.json": "39866c6996fa071f15a15f7f60cd83f3179ed8fc7088914280352dc74658fa93",
+    "lean/lakefile.toml": "53c6403bd1e664c352928ab9795d12b7edaad775f4b832e6d18f10d374c65fb2",
+    "lean/lean-toolchain": "f28855f24b5253d7e8949f38027066a06cdde238520086d421ba7ad24c27a691",
+    "lean/Main.lean": "f6e8d177b106c12e87a09189b069dbf340f09fa0b68c5f10b5648fc2898523e9",
+    "main.pdf": "67c0e3052ff99ab6376f22e60a3d22ff22e07c222161142cb3523a8eed7b9050",
+    "main.tex": "f5a7b12d9981f269ab8861e09933316d2ae628f9443b696fa19bbd1a9fb91d47",
+    "README.md": "5a57d8307cb9e01871c52449a0ee2891cea7152e0815163c21382304b52edbd7",
+    "SOURCE.md": "1fdce89d07325aaac9131e79a15551c78db5dc60b90c4748ae4ab3176b6c77f4",
+    "verification/BUILD.json": "ad39979e46b70252df649baa45a95472b89ca3aef96e4990bf68e97b5d1e474e",
+    "verification/lake-build.log": "8775de063ab8f07cd789d3981baaca9a1f6067e06fcc1f2a0a159d75cd04f560",
+    "verification/lean-axioms.log": "0641f56f0438113099fb68819407c9199bb3dda24f01d6ed46c06fe5e878e533",
+    "verification/lean-version.log": "3185b6e41f0dbc95f59263c635297d77430782b924276e73df58bd943bd10560",
+    "verification/NATIVE_LATEX.json": "310cd8eda908c223b3afcffd928574200bb16d87b7330e1256a86f6ee12f52ec",
+    "verification/pdf-build.log": "15000c29e2f5d2c987f1f63ca36c35e1d8d6595a54500bd3aab1640dd8ecb62a",
+    "verification/pdf-render.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verification/SELF_REVIEW.md": "b554dd5d86bf5aa5cc236aa75199c28b54c26d37ada258522a4c91216546ddb5",
+    "verification/SOURCE_PROVENANCE.json": "6af3c98f47c38dcb24ed473cf163965233c3b98cd20f09e2106e99bfb6a74e4c"
+  }
+}

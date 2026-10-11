@@ -1,0 +1,12 @@
+ℹ [1414/1415] Built Main
+info: .\.\.\.\Main.lean:329:0: 'Conjecture565.clusterVar_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:330:0: 'Conjecture565.exchange_relation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:331:0: 'Conjecture565.mutation_classification' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:332:0: 'Conjecture565.reachable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:333:0: 'Conjecture565.exchange_aut_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:334:0: 'Conjecture565.reflection_is_swap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:335:0: 'Conjecture565.root_length' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:336:0: 'Conjecture565.root_pairing' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:337:0: 'Conjecture565.weyl_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:338:0: 'Conjecture565.no_semidirect_description' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully.
