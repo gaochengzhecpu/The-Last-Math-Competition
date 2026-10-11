@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+\emergencystretch=2em
+\newtheorem{theorem}{Theorem}
+\newcommand{\Z}{\mathbb Z}\newcommand{\Q}{\mathbb Q}
+\title{A ten-vertex simplicial tree with\\11-torsion in its Laplacian group\\
+\large Disproof of Conjecture 00000004215}
+\author{gaochengzhecpu}\date{}
+\begin{document}\maketitle
+\begin{abstract}
+We give a simplicial two-dimensional spanning tree on $10$ vertices
+whose integer up-down Laplacian has a nonzero cokernel element of
+order $11$. The same element belongs to the first critical group.
+Thus a Laplacian torsion prime can exceed the number of vertices.
+All boundary and torsion certificates are exact integers; the Lean
+project checks them and proves the tree conditions and quotient-group
+conclusion. Exact Python verification and discovery code are included.
+\end{abstract}
+
+\section*{The complex and conventions}
+Let $X$ have vertex set $\{0,\ldots,9\}$, every one of its $45$ edges,
+and the following $36$ triangles, with no higher-dimensional faces:
+\[
+\begin{array}{rrrrrr}
+156&128&357&013&368&179\\
+018&149&017&024&148&358\\
+256&258&468&034&478&236\\
+249&239&039&345&012&047\\
+456&459&367&057&126&059\\
+679&068&069&278&267&089
+\end{array}
+\]
+Here $abc$ denotes $\{a,b,c\}$, oriented with $a<b<c$.
+All listed triangles are distinct. Every edge occurs in a listed
+triangle. This defines a pure simplicial complex; it is a subcomplex
+of the complete two-skeleton of the simplex on these ten vertices.
+
+Order edges lexicographically and triangles in the displayed order,
+reading each row from left to right. Let
+\[
+ D:\Z^{45}\longrightarrow\Z^{10},\qquad
+ A:\Z^{36}\longrightarrow\Z^{45}
+\]
+be the oriented boundary matrices:
+$D e_{ab}=e_b-e_a$ and
+$A e_{abc}=e_{bc}-e_{ac}+e_{ab}$.
+We use the standard up-down Laplacian $L=AA^{\mathsf T}$ on edges,
+as in Duval--Klivans--Martin, Section~3. Its integer cokernel is
+$\Z^{45}/L\Z^{45}$, and the first critical group is
+$K_1(X)=\ker D/\operatorname{im}L$. This convention is explicit:
+the total Hodge Laplacian includes a further term $D^{\mathsf T}D$.
+
+\newpage
+\section*{Verification that this is a simplicial tree}
+The first nine edges are $01,02,\ldots,09$. Delete their rows from
+$A$ to obtain a square matrix $B$ of size $36$. Let $E$ be the
+$45\times36$ matrix whose column indexed by $1\le a<b\le9$ is
+\[
+ E_{ab}=e_{ab}-e_{0b}+e_{0a}.
+\]
+These are the fundamental cycles for the star with center $0$.
+Directly from the boundary formulas, $A=EB$, and the bottom
+$36$ rows of $E$ form the identity matrix.
+
+Exact integer elimination gives $\det B=-11$. The supplied
+\texttt{verify.py} implements fraction-free Bareiss elimination and
+also independently calculates $C=11B^{-1}$ using rational Gaussian
+elimination. Every entry of $C$ is an integer. Set
+\[
+ H=\begin{bmatrix}0_{36\times9}&C\end{bmatrix},\qquad
+ S e_0=0,\quad S e_j=11e_{0j}\quad(1\le j\le9).
+\]
+The full integer coefficient table for $H$ appears in
+\texttt{lean/Main/Certificate.lean}. It supplies the following
+directly checkable certificates:
+\begin{equation}\label{eq:chain}
+ DA=0,\qquad HA=11I_{36},\qquad AH+SD=11I_{45}.
+\end{equation}
+Both Lean's kernel and the independent exact Python verifier check
+these identities from the listed triangles. The formal proof uses
+\eqref{eq:chain} directly, so it does not assume a determinant
+computed by an external program.
+
+If $Az=0$ for an integer $2$-chain $z$, then $11z=HAz=0$ and hence
+$z=0$. There are no $3$-simplices, so $H_2(X;\Z)=0$.
+If $Dz=0$ for a rational $1$-chain $z$, then
+\[
+ z=A\left(\frac{1}{11}Hz\right).
+\]
+Thus $H_1(X;\Q)=0$. In fact every integer cycle has $11z=AHz$.
+The complete one-skeleton is connected, and
+\[
+ f_2=36=45-10+1=f_1-f_0+1.
+\]
+These are the usual spanning-tree conditions for a two-dimensional
+subcomplex containing the full one-skeleton. In particular $X$ is
+a simplicial spanning tree of the complete two-skeleton on ten
+vertices. The definition permits finite integral $H_1$; requiring
+integral acyclicity would exclude precisely the torsion phenomenon
+under discussion.
+
+\newpage
+\section*{A nonzero element killed by 11}
+Set
+\[
+ c=e_{01}-e_{04}+e_{14},\qquad b=11c.
+\]
+Clearly $Dc=0$. Define an integer edge vector $w$ to be zero on
+$01,\ldots,09$; on the remaining edges, in lexicographic order,
+its $36$ coordinates are the entries below, read row by row:
+\[
+\begin{array}{rrrrrr}
+33&0&371&98&53&44\\
+44&188&-7&33&43&20\\
+63&-22&-73&33&-51&-6\\
+-29&-72&-33&-117&-184&-55\\
+-250&-139&-45&11&-43&-11\\
+-12&-44&44&-140&100&0
+\end{array}
+\]
+Direct integer multiplication with the boundary matrix of the
+listed triangles gives
+\begin{equation}\label{eq:torsion}
+ Lw=121c=11b,\qquad
+ w^{\mathsf T}L=121c^{\mathsf T},\qquad
+ w^{\mathsf T}b=4081=121\cdot33+88.
+\end{equation}
+The second identity also follows by transposing the first, because
+$L$ is symmetric. The last uses $w_{01}=w_{04}=0$ and
+$w_{14}=371$. These identities are checked in both supplied
+verification systems; no numerical approximation is involved.
+
+\begin{theorem}
+The class of $b$ in $\Z^{45}/L\Z^{45}$ is nonzero and has order $11$.
+Its class in $K_1(X)$ has the same property.
+\end{theorem}
+\begin{proof}
+The first identity of \eqref{eq:torsion} implies $11[b]=0$.
+If $b=Lz$ for an integer vector $z$, then
+\[
+ 4081=w^{\mathsf T}b=w^{\mathsf T}Lz=121c^{\mathsf T}z,
+\]
+which is impossible modulo $121$. Hence $[b]\ne0$. Since $11$ is
+prime, its order is exactly $11$. Also $Db=0$, so the same
+nonzero class and annihilation identity hold in
+$\ker D/\operatorname{im}L$.
+\end{proof}
+The Smith normal form of an integer matrix presents its cokernel.
+The exhibited element therefore certifies $11$-torsion in the
+Laplacian cokernel. Since $11>10$, the conjectured vertex bound is
+false. No assertion about which lens-space examples attain a
+corrected bound is needed to refute the stated universal bound.
+
+\newpage
+\section*{Formalization and reproduction}
+The Lean project constructs the actual oriented edge and triangle
+boundaries from finite vertex tuples. It proves that the edge list
+is precisely the complete one-skeleton, that triangles are valid
+and distinct, that the associated face family is downward closed,
+and that it has $36$ facets. The tree predicate records the
+explicit chain conditions: integral top-cycle vanishing and
+rational first-cycle exactness. These are proved using the
+integer certificates \eqref{eq:chain}, with rational extension
+performed algebraically in Lean.
+
+The critical group is an actual additive quotient:
+\texttt{cycles} is the kernel of the edge boundary, and
+\texttt{lapImage} is the range of the Laplacian into that kernel.
+\texttt{torsion\_nonzero} and \texttt{torsion\_eleven} prove the
+two properties of the exhibited class. A separate theorem,
+\texttt{cokernel\_torsion}, proves them in the full matrix cokernel.
+The final \texttt{counterexample} theorem combines the tree
+conditions, primality of $11$, the comparison $11>10$, and the
+nonzero class killed by $11$.
+
+\texttt{Certificate.lean} contains explicit integers and
+kernel-checked decisions. The initial numerical search is used
+only to find a candidate; it is not a proof oracle. The
+\texttt{discovery.py} script preserves that basis-exchange search
+(requiring NumPy), including an exact determinant check of its
+output. The proof and \texttt{verify.py} require no NumPy:
+the latter uses only Python's standard library, checks all relevant
+integer identities, and checks its data against the Lean source.
+
+Lean 4.19.0 and Mathlib revision\\
+\texttt{c44e0c8ee63ca166450922a373c7409c5d26b00b} are pinned.
+From the submitted \texttt{lean/} directory, run
+\begin{verbatim}
+lake exe cache get
+lake build
+lake env lean -DwarningAsError=true Main.lean
+\end{verbatim}
+The fresh build checks the entire certificate module. There are no
+proof placeholders, custom axioms or external computation oracles.
+Run \texttt{python verify.py} from the submission directory for the
+independent arithmetic verification, and \texttt{tectonic main.tex}
+to regenerate the PDF. The author performed an adversarial
+self-review; no independent reviewer or subagent was used.
+
+\section*{References}
+\begin{enumerate}
+\item The Last Math Competition, Conjecture 00000004215. The exact
+bilingual source and its upstream provenance are included.
+\item A. M. Duval, C. J. Klivans and J. L. Martin,
+\emph{Critical Groups of Simplicial Complexes}, Section~3,
+Definitions~3.1--3.2. Authors' preprint (2011),
+\href{https://www.dam.brown.edu/people/cklivans/critical.pdf}{available here}.
+\end{enumerate}
+\end{document}

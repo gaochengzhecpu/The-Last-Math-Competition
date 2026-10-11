@@ -1,0 +1,11 @@
+✔ [1200/1202] Built Main.Certificate
+ℹ [1201/1202] Built Main
+info: .\.\.\.\Main.lean:182:0: 'Conjecture4215.boundary_squared' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:183:0: 'Conjecture4215.faces_downward_closed' depends on axioms: [propext, Quot.sound]
+info: .\.\.\.\Main.lean:184:0: 'Conjecture4215.facets_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:185:0: 'Conjecture4215.recovery_boundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:186:0: 'Conjecture4215.homotopy_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:187:0: 'Conjecture4215.is_two_tree' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:188:0: 'Conjecture4215.counterexample' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: .\.\.\.\Main.lean:189:0: 'Conjecture4215.cokernel_torsion' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully.

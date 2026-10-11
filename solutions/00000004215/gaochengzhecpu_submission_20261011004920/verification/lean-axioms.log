@@ -1,0 +1,8 @@
+'Conjecture4215.boundary_squared' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Conjecture4215.faces_downward_closed' depends on axioms: [propext, Quot.sound]
+'Conjecture4215.facets_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Conjecture4215.recovery_boundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Conjecture4215.homotopy_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Conjecture4215.is_two_tree' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Conjecture4215.counterexample' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Conjecture4215.cokernel_torsion' depends on axioms: [propext, Classical.choice, Quot.sound]

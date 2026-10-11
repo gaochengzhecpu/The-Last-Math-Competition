@@ -1,0 +1,1 @@
+{"id": "00000004215", "vertices": 10, "edges": 45, "triangles": 36, "reduced_boundary_determinant": -11, "reduced_laplacian_determinant": 121, "chain_certificates": "PASS", "torsion_prime": 11, "detector_pairing": 4081, "detector_modulus": 121, "nonzero_residue": 88, "exact_torsion_certificate": "PASS"}
